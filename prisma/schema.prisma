@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  source    String   @default("website")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String   @default("General Inquiry")
+  message   String
+  handled   Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  type        String   @default("Book Signing")
+  date        DateTime
+  time        String   @default("7:00 PM")
+  city        String
+  venue       String
+  description String?
+  ticketUrl   String?
+  capacity    Int      @default(0)
+  soldOut     Boolean  @default(false)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  name      String
+  role      String   @default("Reader")
+  rating    Int      @default(5)
+  quote     String
+  approved  Boolean  @default(false)
+  source    String   @default("website")
+  createdAt DateTime @default(now())
+}
+
+model Rsvp {
+  id        String   @id @default(cuid())
+  eventId   String
+  name      String
+  email     String
+  count     Int      @default(1)
+  createdAt DateTime @default(now())
+
+  @@unique([eventId, email])
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  body        String
+  category    String   @default("Update")
+  author      String   @default("Dr. Victor Y. Wright")
+  published   Boolean  @default(false)
+  featured    Boolean  @default(false)
+  readMinutes Int      @default(3)
+  publishedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Comment {
+  id              String   @id @default(cuid())
+  postSlug        String
+  name            String
+  body            String
+  approved        Boolean  @default(false)
+  parentCommentId String?
+  createdAt       DateTime @default(now())
+}
+
+model Reaction {
+  id        String   @id @default(cuid())
+  commentId String
+  type      String   @default("like")
+  fingerprint String
+  createdAt DateTime @default(now())
+
+  @@unique([commentId, fingerprint, type])
+}
