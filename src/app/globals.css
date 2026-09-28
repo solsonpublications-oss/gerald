@@ -1,0 +1,381 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-lora), Georgia, serif;
+  --font-display: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  /* Book-specific palette tokens */
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --color-violet: var(--violet);
+  --color-violet-dark: var(--violet-dark);
+  --color-navy: var(--navy);
+  --color-mist: var(--mist);
+  --color-ink: var(--ink);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.875rem;
+  /* Book palette */
+  --sky: #7ec1e0;          /* primary background sky blue */
+  --sky-soft: #8fcbe8;     /* lighter sky blue */
+  --violet: #5b2a86;       /* deep purple accent */
+  --violet-dark: #471f6a;  /* darker purple for hover */
+  --navy: #1e2a38;         /* charcoal navy body text */
+  --mist: #eaf4fa;         /* light blue-gray alt section */
+  --ink: #16212c;          /* always-dark background (footer/trailer) */
+
+  --background: #ffffff;
+  --foreground: #1e2a38;
+  --card: #ffffff;
+  --card-foreground: #1e2a38;
+  --popover: #ffffff;
+  --popover-foreground: #1e2a38;
+  --primary: #5b2a86;
+  --primary-foreground: #ffffff;
+  --secondary: #eaf4fa;
+  --secondary-foreground: #1e2a38;
+  --muted: #eaf4fa;
+  --muted-foreground: #5a6b7a;
+  --accent: #7ec1e0;
+  --accent-foreground: #1e2a38;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #d7e6f0;
+  --input: #d7e6f0;
+  --ring: #5b2a86;
+  --chart-1: #5b2a86;
+  --chart-2: #7ec1e0;
+  --chart-3: #1e2a38;
+  --chart-4: #8fcbe8;
+  --chart-5: #6a3aa0;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1e2a38;
+  --sidebar-primary: #5b2a86;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eaf4fa;
+  --sidebar-accent-foreground: #1e2a38;
+  --sidebar-border: #d7e6f0;
+  --sidebar-ring: #5b2a86;
+}
+
+.dark {
+  /* Book palette — adapted for dark mode */
+  --sky: #8fcbe8;          /* brighter sky for contrast */
+  --sky-soft: #a8d8ef;
+  --violet: #9d6bcc;       /* brighter violet for dark bg contrast */
+  --violet-dark: #7a4cae;
+  --navy: #eaf4fa;         /* text-navy becomes light in dark mode */
+  --mist: #1e2a38;         /* bg-mist becomes a dark panel */
+  --ink: #0f1820;          /* even darker ink for dark mode */
+
+  --background: #16212c;
+  --foreground: #eaf4fa;
+  --card: #1e2a38;
+  --card-foreground: #eaf4fa;
+  --popover: #1e2a38;
+  --popover-foreground: #eaf4fa;
+  --primary: #8fcbe8;
+  --primary-foreground: #16212c;
+  --secondary: #233445;
+  --secondary-foreground: #eaf4fa;
+  --muted: #233445;
+  --muted-foreground: #9bb0c0;
+  --accent: #5b2a86;
+  --accent-foreground: #eaf4fa;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #2c3e50;
+  --input: #2c3e50;
+  --ring: #8fcbe8;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv01", "cv02";
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  /* Accessible focus-visible ring for keyboard users */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  /* Skip link — visually hidden until focused */
+  .skip-link {
+    position: fixed;
+    top: -100px;
+    left: 1rem;
+    z-index: 100;
+    border-radius: 0.5rem;
+    background: var(--violet);
+    color: #fff;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: top 0.2s ease;
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Respect users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    .ekg-path {
+      stroke-dashoffset: 0 !important;
+      animation: none !important;
+    }
+    .animate-float-slow,
+    .animate-pulse-ring,
+    .ekg-glow {
+      animation: none !important;
+    }
+  }
+}
+
+/* ── Dark-mode background & border swaps ───────────────────────────
+   Placed OUTSIDE @layer so these rules have higher priority than
+   utility classes (bg-white etc.) which live in @layer utilities.
+   Sections with bg-white become the darkest panel; cards/panels
+   with bg-white become a slightly lighter card. Same for bg-mist.
+   Borders shift from violet-tinted to white-tinted for contrast. */
+.dark section.bg-white { background-color: #16212c; }
+.dark section.bg-mist { background-color: #1e2a38; }
+.dark .bg-white { background-color: #1e2a38; }
+.dark .bg-mist { background-color: #233445; }
+.dark .bg-mist\/40 { background-color: rgba(35, 52, 69, 0.4); }
+.dark .bg-mist\/50 { background-color: rgba(35, 52, 69, 0.5); }
+.dark .bg-mist\/60 { background-color: rgba(35, 52, 69, 0.6); }
+
+.dark .border-violet\/10 { border-color: rgba(255, 255, 255, 0.08); }
+.dark .border-violet\/15 { border-color: rgba(255, 255, 255, 0.10); }
+.dark .border-violet\/20 { border-color: rgba(255, 255, 255, 0.12); }
+.dark .border-violet\/25 { border-color: rgba(255, 255, 255, 0.15); }
+.dark .border-violet\/30 { border-color: rgba(255, 255, 255, 0.18); }
+
+/* navy text already flips via the --navy token; keep navy bg dark */
+.dark .bg-navy { background-color: #0f1820; }
+.dark .text-navy\/40 { color: rgba(234, 244, 250, 0.4); }
+.dark .text-navy\/50 { color: rgba(234, 244, 250, 0.5); }
+.dark .text-navy\/60 { color: rgba(234, 244, 250, 0.6); }
+.dark .text-navy\/70 { color: rgba(234, 244, 250, 0.7); }
+.dark .text-navy\/75 { color: rgba(234, 244, 250, 0.75); }
+.dark .text-navy\/80 { color: rgba(234, 244, 250, 0.8); }
+.dark .text-navy\/85 { color: rgba(234, 244, 250, 0.85); }
+.dark .text-navy\/90 { color: rgba(234, 244, 250, 0.9); }
+
+@layer utilities {
+  .font-serif {
+    font-family: var(--font-lora), Georgia, serif;
+  }
+  .font-display {
+    font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
+    letter-spacing: 0.02em;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Sky gradient used in hero & section dividers */
+  .bg-sky-gradient {
+    background: linear-gradient(135deg, #8fcbe8 0%, #7ec1e0 50%, #6ab4d8 100%);
+  }
+  .bg-sky-gradient-soft {
+    background: linear-gradient(180deg, #eaf4fa 0%, #ffffff 60%);
+  }
+  .bg-violet-gradient {
+    background: linear-gradient(135deg, #5b2a86 0%, #6a3aa0 50%, #471f6a 100%);
+  }
+  .bg-hero-overlay {
+    background: linear-gradient(
+      115deg,
+      rgba(91, 42, 134, 0.92) 0%,
+      rgba(91, 42, 134, 0.72) 38%,
+      rgba(126, 193, 224, 0.45) 78%,
+      rgba(126, 193, 224, 0.2) 100%
+    );
+  }
+
+  .text-shadow-soft {
+    text-shadow: 0 2px 18px rgba(30, 42, 56, 0.25);
+  }
+  .text-shadow-glow {
+    text-shadow: 0 0 22px rgba(255, 255, 255, 0.55), 0 2px 10px rgba(30, 42, 56, 0.35);
+  }
+
+  /* Soft elevated card shadow */
+  .shadow-soft {
+    box-shadow: 0 10px 40px -12px rgba(30, 42, 56, 0.18),
+      0 4px 12px -4px rgba(30, 42, 56, 0.08);
+  }
+  .shadow-soft-lg {
+    box-shadow: 0 30px 70px -20px rgba(30, 42, 56, 0.28),
+      0 10px 24px -8px rgba(30, 42, 56, 0.12);
+  }
+  .shadow-violet-glow {
+    box-shadow: 0 0 0 1px rgba(91, 42, 134, 0.12),
+      0 18px 50px -12px rgba(91, 42, 134, 0.45);
+  }
+
+  /* 3D book mockup */
+  .book-3d {
+    transform: perspective(1400px) rotateY(-22deg) rotateX(4deg);
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .book-3d:hover {
+    transform: perspective(1400px) rotateY(-12deg) rotateX(2deg) translateY(-6px);
+  }
+  .book-spine {
+    transform: translateZ(-18px) rotateY(90deg) translateX(18px);
+    transform-origin: left center;
+  }
+
+  /* Custom scrollbar for excerpt & long lists */
+  .scroll-elegant::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scroll-elegant::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scroll-elegant::-webkit-scrollbar-thumb {
+    background: rgba(91, 42, 134, 0.3);
+    border-radius: 999px;
+  }
+  .scroll-elegant::-webkit-scrollbar-thumb:hover {
+    background: rgba(91, 42, 134, 0.55);
+  }
+
+  /* Drop cap for excerpt */
+  .drop-cap::first-letter {
+    font-family: var(--font-bebas), "Bebas Neue", Impact, sans-serif;
+    font-size: 4.2rem;
+    line-height: 0.85;
+    float: left;
+    padding: 0.18em 0.14em 0 0;
+    color: #5b2a86;
+  }
+
+  /* Animated heartbeat pulse draw */
+  @keyframes ekg-draw {
+    0% {
+      stroke-dashoffset: 2400;
+    }
+    60%,
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+  .ekg-path {
+    stroke-dasharray: 2400;
+    stroke-dashoffset: 2400;
+    animation: ekg-draw 3.6s cubic-bezier(0.65, 0, 0.35, 1) forwards infinite;
+  }
+  @keyframes ekg-glow {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  .ekg-glow {
+    animation: ekg-glow 2.4s ease-in-out infinite;
+  }
+
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.85);
+      opacity: 0.7;
+    }
+    70% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .animate-pulse-ring {
+    animation: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .bg-grid-soft {
+    background-image: linear-gradient(rgba(91, 42, 134, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91, 42, 134, 0.05) 1px, transparent 1px);
+    background-size: 38px 38px;
+  }
+}
